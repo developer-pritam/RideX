@@ -1,9 +1,8 @@
-pragma solidity ^0.4.0;
+pragma solidity ^0.8.7;
 
-contract User{
+contract User {
     
-    struct Details{
-    
+    struct Details {
         string privateKey;
         string password;
         string phoneNumber;
@@ -11,19 +10,18 @@ contract User{
         string vehicleNo;
         string name;
         string category;
-    
     }
-    struct Rides{
+    
+    struct Rides {
         string driver;
     }
-    mapping ( string  => Details)  detailsMap;
-    mapping ( string => Rides[]) finalBid;
     
-    function get(string username) view returns(string,string,string,string,string,string,string){
+    mapping (string => Details) detailsMap;
+    mapping (string => Rides[]) finalBid;
     
-        Details memory currentUser=detailsMap[username];
+    function get(string memory username) public view returns (string memory, string memory, string memory, string memory, string memory, string memory, string memory) {
+        Details memory currentUser = detailsMap[username];
         return (
-           
             currentUser.privateKey,
             currentUser.phoneNumber,
             currentUser.vehicle,
@@ -31,12 +29,11 @@ contract User{
             currentUser.category,
             currentUser.name,
             currentUser.password
-            
         );
-    
     }
-    function set(string name,string username,string phoneNumber,string vehicle,string vehicleNo,string category,string password,string key) public{
-        detailsMap[username]=Details(
+    
+    function set(string memory name, string memory username, string memory phoneNumber, string memory vehicle, string memory vehicleNo, string memory category, string memory password, string memory key) public {
+        detailsMap[username] = Details(
             key,
             password,
             phoneNumber,
@@ -45,12 +42,13 @@ contract User{
             name,
             category
         );
-        
     }
-    function setFinalBid(string driver,string rider)  public{
+    
+    function setFinalBid(string memory driver, string memory rider) public {
         finalBid[rider].push(Rides(driver));
     }
-    function getFinalBid(string rider) public  returns(uint){
+    
+    function getFinalBid(string memory rider) public view returns (uint) {
         return finalBid[rider].length;
     }
 }
